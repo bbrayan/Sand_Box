@@ -19,7 +19,7 @@ body {
   text-align: center;
   height: 100vh;
   align-items: center;
-  background: linear-gradient(0deg, #2979ff 50%, #c2b280 50%);
+  background: linear-gradient(to bottom, #c2b280 60%, #2979ff);
 }
 
 .joinInnerContainer {
