@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import './Join.css';
+import sandBox from '../../icons/sandcastle.png';
 
 const Join = () =>{
     //example of react hooks
@@ -12,8 +13,9 @@ const Join = () =>{
     return (
         <div className="joinOuterContainer">
             <div className="joinInnerContainer">
-                <h1 className="heading">Sand Box</h1>
-                
+                <h1 className="heading">Sand Castle</h1>
+                <img src={sandBox} alt="Sand Castle" className="sandCastle" />
+                <div><p3 className="joinText">wow</p3></div>
                 <div >
                 <h1 className="heading">Join</h1>
                 <div><input placeholder="Name" className="joinInput" type="text" onChange={(event) => setName(event.target.value)} /></div>

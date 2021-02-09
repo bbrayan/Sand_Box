@@ -54,7 +54,15 @@ body {
 .mt-20 {
   margin-top: 20px;
 }
-
+.sandCastle {
+  height: 50%;
+  width: 50%;
+  border-radius: 8px;
+  border-color: brown;
+}
+.joinText {
+  color: #fff !important;
+}
 @media (min-width: 320px) and (max-width: 480px) {
   .joinOuterContainer {
     height: 100%;
