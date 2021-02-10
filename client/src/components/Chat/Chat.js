@@ -4,15 +4,18 @@ import io from 'socket.io-client';
 
 import './Chat.css';
 
+import TextContainer from '../TextContainer/TextContainer';
 import InfoBar from '../InforBar/InforBar'
 import Input from '../Input/Input'
 import Messages from '../Messages/Messages'
+import Board from '../Board//Board'
 let socket;
 
 
 const Chat = ({ location }) =>{
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
+    const [users, setUsers] = useState('');
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const ENDPOINT = 'localhost:5000'
@@ -40,6 +43,10 @@ const Chat = ({ location }) =>{
             setMessages(messages => [ ...messages, message ]);
             console.log(message);
         })
+
+        socket.on("roomData", ({ users }) => {
+            setUsers(users);
+          });
     }, []) 
     // note reason for bug was that it would setup up a listener everytime a message was recieved [messages] to [] fixed it.
 
@@ -56,12 +63,15 @@ const Chat = ({ location }) =>{
 
     return (
         <div className="outerContainer">
+         
+                <Board />
+ 
             <div className="container">
                 <InfoBar room={room}/>
                 <Messages messages={messages} name={name}/>
                 <Input message={message} setMessage={ setMessage } sendMessage={ sendMessage } />
             </div>
-        
+            <div className="container"><TextContainer users={users}/></div>
         </div>
     )
 }

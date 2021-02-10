@@ -15,7 +15,7 @@ const Join = () =>{
             <div className="joinInnerContainer">
                 <h1 className="heading">Sand Castle</h1>
                 <img src={sandBox} alt="Sand Castle" className="sandCastle" />
-                <div><p3 className="joinText">wow</p3></div>
+                <div><h1 className="joinText">wow</h1></div>
                 <div >
                 <h1 className="heading">Join</h1>
                 <div><input placeholder="Name" className="joinInput" type="text" onChange={(event) => setName(event.target.value)} /></div>
