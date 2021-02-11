@@ -40,6 +40,11 @@ io.on('connection', (socket) => {
         callback();
     });
 
+    socket.on('canvas-data', (data, callback)=> {
+        socket.broadcast.to(user.room).emit('canvas-data', data);
+        callback();
+  })
+
     socket.on('disconnect', () => {
         const user = removeUser(socket.id);
 

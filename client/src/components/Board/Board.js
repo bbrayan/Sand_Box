@@ -3,7 +3,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import './Board.css';
 
 
-const Board = ({ color, size, setColor, setSize }) =>{
+const Board = ({ color, size, setColor, setSize, socket }) =>{
     //example of refrence keep track of refrence to elements or any kind of information really
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
@@ -12,9 +12,6 @@ const Board = ({ color, size, setColor, setSize }) =>{
     //refrence helped fix a bug as board is being constantly refreshed Keep a note of that
     const mouse = useRef({x: 0, y: 0});
     const last_mouse = useRef({x: 0, y: 0});
-
-    
-
 
     useEffect(() =>{
         const canvas = canvasRef.current;
@@ -38,8 +35,9 @@ const Board = ({ color, size, setColor, setSize }) =>{
     
 
     useEffect(() =>{
+        contextRef.current.lineWidth = size;
         contextRef.current.strokeStyle = color;
-    },[color])
+    },[color,size])
     
     const startDrawing  = () =>{
         contextRef.current.beginPath();
@@ -62,12 +60,25 @@ const Board = ({ color, size, setColor, setSize }) =>{
     //using hooks for inputs
     return (
         <div className="container">
+            <div class="tools-section">
                 <div className="colorPickerContainer">
                     <input type="color"
                     value={color}
                     onChange={(event) => setColor(event.target.value)}
                     ></input>
                 </div>
+                <div className="brushsize-container">
+                        Select Brush Size : &nbsp; 
+                        <select value={size} onChange={(event) => setSize(event.target.value)}>
+                            <option> 5 </option>
+                            <option> 10 </option>
+                            <option> 15 </option>
+                            <option> 20 </option>
+                            <option> 25 </option>
+                            <option> 30 </option>
+                        </select>
+                    </div>
+                    </div>
                 <div className="boardContainer" id="boardContainer" ref={boardContainerRef}>
                     <canvas className="board" id="board"
                         ref={canvasRef}

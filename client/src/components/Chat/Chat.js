@@ -66,7 +66,7 @@ const Chat = ({ location }) =>{
     return (
         <div className="outerContainer">
          
-                <Board size={size} color={color} setColor={ setColor } setSize={ setSize } />
+                <Board size={size} color={color} setColor={ setColor } setSize={ setSize } socket={ socket }/>
  
             <div className="container">
                 <InfoBar room={room}/>
