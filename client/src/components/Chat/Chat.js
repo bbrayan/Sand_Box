@@ -17,9 +17,8 @@ const Chat = ({ location }) =>{
     const [room, setRoom] = useState('');
     const [users, setUsers] = useState('');
     const [message, setMessage] = useState('');
-    const [size, setSize] = useState('');
+    const [size, setSize] = useState(5);
     const [color, setColor] = useState('#000000');
-    const [ctxx, setCtxx] = useState(null);
     const [messages, setMessages] = useState([]);
     const ENDPOINT = 'localhost:5000'
 
@@ -67,7 +66,7 @@ const Chat = ({ location }) =>{
     return (
         <div className="outerContainer">
          
-                <Board size={size} color={color} ctx={ctxx} setColor={ setColor } setSize={ setSize } setCtx={ setCtxx }/>
+                <Board size={size} color={color} setColor={ setColor } setSize={ setSize } />
  
             <div className="container">
                 <InfoBar room={room}/>

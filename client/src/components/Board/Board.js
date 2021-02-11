@@ -1,67 +1,38 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 
 import './Board.css';
 
 
-const Board = ({ color, size, ctxx, setColor, setSize, setCtxx }) =>{
+const Board = ({ color, size, setColor, setSize }) =>{
+    //example of refrence keep track of refrence to elements or any kind of information really
+    const canvasRef = useRef(null);
+    const contextRef = useRef(null);
+    const boardContainerRef = useRef(null);
 
+    useEffect(() =>{
+        const canvas = canvasRef.current;
+        canvas.width = parseInt(getComputedStyle(boardContainerRef.current).getPropertyValue('width'));
+        canvas.height = parseInt(getComputedStyle(boardContainerRef.current).getPropertyValue('height'));
 
-    useEffect(() => {
-       drawOnCanvas();
-    },[color]) 
+        const context =canvas.getContext("2d");
+        context.lineWidth = size;
+        context.lineJoin = 'round';
+        context.lineCap = 'round';
+        context.strokeStyle = color;
+        contextRef.current = context;
+    }, [])
+    
+    const startDrawing  = () =>{
+        contextRef.current.beginPath();
 
-    const drawOnCanvas = (() => {
-        var canvas = document.querySelector('#board');
-        var ctx = canvas.getContext('2d');
-       
+    }
+    const finishDrawing  = () =>{
+        
+    }
+    const draw = () =>{
 
-        var sketch = document.querySelector('#boardContainer');
-        var sketch_style = getComputedStyle(sketch);
-        canvas.width = parseInt(sketch_style.getPropertyValue('width'));
-        canvas.height = parseInt(sketch_style.getPropertyValue('height'));
-
-        var mouse = {x: 0, y: 0};
-        var last_mouse = {x: 0, y: 0};
-
-        /* Mouse Capturing Work */
-        canvas.addEventListener('mousemove', function(e) {
-            last_mouse.x = mouse.x;
-            last_mouse.y = mouse.y;
-
-            mouse.x = e.pageX - this.offsetLeft;
-            mouse.y = e.pageY - this.offsetTop;
-        }, false);
-
-
-        /* Drawing on Paint App */
-        ctx.lineWidth = size;
-        ctx.lineJoin = 'round';
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = color;
-
-        canvas.addEventListener('mousedown', function(e) {
-            canvas.addEventListener('mousemove', onPaint, false);
-        }, false);
-
-        canvas.addEventListener('mouseup', function() {
-            canvas.removeEventListener('mousemove', onPaint, false);
-        }, false);
-
-        var root = this;
-        var onPaint = function() {
-            ctx.beginPath();
-            ctx.moveTo(last_mouse.x, last_mouse.y);
-            ctx.lineTo(mouse.x, mouse.y);
-            ctx.closePath();
-            ctx.stroke();
-
-            //if(root.timeout != undefined) clearTimeout(root.timeout);
-            //root.timeout = setTimeout(function(){
-                //var base64ImageData = canvas.toDataURL("image/png");
-                //root.socket.emit("canvas-data", base64ImageData);
-            //}, 1000)
-        };
-    })
+    }
+    
     //using hooks for inputs
     return (
         <div className="container">
@@ -71,8 +42,13 @@ const Board = ({ color, size, ctxx, setColor, setSize, setCtxx }) =>{
                     onChange={(event) => setColor(event.target.value)}
                     ></input>
                 </div>
-                <div className="boardContainer" id="boardContainer">
-                    <canvas className="board" id="board"></canvas>
+                <div className="boardContainer" id="boardContainer" ref={boardContainerRef}>
+                    <canvas className="board" id="board"
+                        ref={canvasRef}
+                        onMouseDown={startDrawing}
+                        onMouseUp={finishDrawing}
+                        oneMouseMove={draw}
+                    ></canvas>
                 </div>
         </div>
     )
