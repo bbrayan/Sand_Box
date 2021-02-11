@@ -3,11 +3,12 @@ import React, {useEffect, useState, useRef} from 'react';
 import './Board.css';
 
 
-const Board = ({ color, size, setColor, setSize, socket }) =>{
+const Board = ({ color, size, base64ImageData, imgFlag, setColor, setSize, setBase64ImageData, setImgFlag, sendImage }) =>{
     //example of refrence keep track of refrence to elements or any kind of information really
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
     const boardContainerRef = useRef(null);
+    const timeoutRef = useRef()
     const [isDrawing, setIsDrawing] = useState(false);
     //refrence helped fix a bug as board is being constantly refreshed Keep a note of that
     const mouse = useRef({x: 0, y: 0});
@@ -32,6 +33,24 @@ const Board = ({ color, size, setColor, setSize, socket }) =>{
         context.strokeStyle = color;
         contextRef.current = context;
     }, [])
+
+    useEffect(() =>{
+        if(!imgFlag){return}
+        var interval = setInterval(function(){
+            if(isDrawing) return;
+            setIsDrawing(true);
+            clearInterval(interval);
+            var image = new Image();
+            image.onload = function() {
+                contextRef.current.drawImage(image, 0, 0);
+
+                setIsDrawing(false);
+            };
+            image.src = base64ImageData;
+        }, 200)
+        setImgFlag(false);
+
+    },[imgFlag])
     
 
     useEffect(() =>{
@@ -55,12 +74,20 @@ const Board = ({ color, size, setColor, setSize, socket }) =>{
         }
         contextRef.current.lineTo(mouse.current.x, mouse.current.y);
         contextRef.current.stroke();
+        
+        if(timeoutRef.current != undefined) clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(function(){
+            console.log('img saved');
+            setBase64ImageData(canvasRef.current.toDataURL("image/png"));
+            sendImage();
+        }, 1000)
+        
     }
     
     //using hooks for inputs
     return (
         <div className="container">
-            <div class="tools-section">
+            <div className="tools-section">
                 <div className="colorPickerContainer">
                     <input type="color"
                     value={color}
