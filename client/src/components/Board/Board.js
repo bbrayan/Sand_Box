@@ -43,12 +43,11 @@ const Board = ({ color, size, base64ImageData, imgFlag, setColor, setSize, setBa
             var image = new Image();
             image.onload = function() {
                 contextRef.current.drawImage(image, 0, 0);
-
                 setIsDrawing(false);
             };
             image.src = base64ImageData;
+            setImgFlag(false);
         }, 200)
-        setImgFlag(false);
 
     },[imgFlag])
     
@@ -80,6 +79,7 @@ const Board = ({ color, size, base64ImageData, imgFlag, setColor, setSize, setBa
             console.log('img saved');
             setBase64ImageData(canvasRef.current.toDataURL("image/png"));
             sendImage();
+            clearTimeout(timeoutRef.current);
         }, 1000)
         
     }
