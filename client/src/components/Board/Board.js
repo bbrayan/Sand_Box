@@ -8,11 +8,25 @@ const Board = ({ color, size, setColor, setSize }) =>{
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
     const boardContainerRef = useRef(null);
+    const [isDrawing, setIsDrawing] = useState(false);
+    //refrence helped fix a bug as board is being constantly refreshed Keep a note of that
+    const mouse = useRef({x: 0, y: 0});
+    const last_mouse = useRef({x: 0, y: 0});
+
+    
+
 
     useEffect(() =>{
         const canvas = canvasRef.current;
         canvas.width = parseInt(getComputedStyle(boardContainerRef.current).getPropertyValue('width'));
         canvas.height = parseInt(getComputedStyle(boardContainerRef.current).getPropertyValue('height'));
+        canvasRef.current.addEventListener('mousemove', function(e) {
+            last_mouse.current.x = mouse.current.x;
+            last_mouse.current.y = mouse.current.y;
+    
+            mouse.current.x = e.pageX - this.offsetLeft;
+            mouse.current.y = e.pageY - this.offsetTop;
+        }, false);
 
         const context =canvas.getContext("2d");
         context.lineWidth = size;
@@ -22,15 +36,27 @@ const Board = ({ color, size, setColor, setSize }) =>{
         contextRef.current = context;
     }, [])
     
+
+    useEffect(() =>{
+        contextRef.current.strokeStyle = color;
+    },[color])
+    
     const startDrawing  = () =>{
         contextRef.current.beginPath();
-
+        contextRef.current.moveTo(last_mouse.current.x, last_mouse.current.y);
+        console.log(last_mouse.current.x, last_mouse.current.y);
+        setIsDrawing(true);
     }
     const finishDrawing  = () =>{
-        
+        contextRef.current.closePath();
+        setIsDrawing(false);
     }
     const draw = () =>{
-
+        if(!isDrawing){
+            return
+        }
+        contextRef.current.lineTo(mouse.current.x, mouse.current.y);
+        contextRef.current.stroke();
     }
     
     //using hooks for inputs
@@ -47,7 +73,7 @@ const Board = ({ color, size, setColor, setSize }) =>{
                         ref={canvasRef}
                         onMouseDown={startDrawing}
                         onMouseUp={finishDrawing}
-                        oneMouseMove={draw}
+                        onMouseMove={draw}
                     ></canvas>
                 </div>
         </div>
