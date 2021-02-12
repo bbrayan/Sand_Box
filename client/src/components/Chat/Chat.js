@@ -22,7 +22,7 @@ const Chat = ({ location }) =>{
     const [color, setColor] = useState('#000000');
     const [base64ImageData, setBase64ImageData] = useState();
     const [messages, setMessages] = useState([]);
-    const ENDPOINT = 'localhost:5000'
+    const ENDPOINT = 'https://react-chat-application-b.herokuapp.com/'
 
 
     useEffect(() =>{
