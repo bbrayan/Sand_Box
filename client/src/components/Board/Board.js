@@ -63,10 +63,12 @@ const Board = ({ color, size, base64ImageData, imgFlag, setColor, setSize, setBa
         console.log(last_mouse.current.x, last_mouse.current.y);
         setIsDrawing(true);
     }
+
     const finishDrawing  = () =>{
         contextRef.current.closePath();
         setIsDrawing(false);
     }
+    
     const draw = () =>{
         if(!isDrawing){
             return
