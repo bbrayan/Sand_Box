@@ -37,7 +37,7 @@ io.on('connection', (socket) => {
         
         //console.log(user);
         io.to(user.room).emit('message', { user: user.name, text: message});
-        io.to(user.room).emit('roomData', { room: user.room, text: message});
+        
         callback();
     });
 
