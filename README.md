@@ -5,3 +5,13 @@ a username into a room and communicate with other users of that group, the ui ha
 all current users.
 
 https://6026d3ade6a65f2c01b25050--upbeat-babbage-6f5f61.netlify.app
+
+the login page
+![](pictures/sand_castle_page_1.png)
+
+the perspective of 2 users on the app
+
+![](pictures/sand_castle_page_2.png)
+
+
+![](pictures/sand_castle_page_3.png)
