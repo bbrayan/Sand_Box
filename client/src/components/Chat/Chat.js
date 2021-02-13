@@ -59,7 +59,7 @@ const Chat = ({ location }) =>{
             console.log("img received ")
         });
     }, []) 
-    // note reason for bug was that it would setup up a listener everytime a message was recieved [messages] to [] fixed it.
+    
 
     //function for sending img
     const sendImage = () => {
